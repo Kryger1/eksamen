@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="da">
+<head>
+    <meta charset="utf-8">
+    <title>Crypta</title>
+
+    <meta name="robots" content="All">
+    <meta name="author" content="Udgiver">
+    <meta name="copyright" content="Information om copyright">
+
+    <link href="css/styles.css" rel="stylesheet" type="text/css">
+    <link href="https://fonts.googleapis.com/css2?family=Lobster&display=swap" rel="stylesheet">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+</head>
+<body>
+<!-- Logo -->
+<div class="container text-center my-4">
+    <img src="img/logoQ.png" alt="App Logo" class="img-fluid logo">
+</div>
+
+<!-- Tabel til de 10 største kryptovalutaer -->
+<table class="table table-bordered">
+    <thead>
+    <tr>
+        <th>Coin</th>
+        <th>Pris (DKK)</th>
+    </tr>
+    </thead>
+    <tbody id="cryptoTable"></tbody>
+</table>
+</div>
+
+<script>
+    const apiKey = 'CG-CnLBRf3VRrEj7Mnkui3tYDEz';  // Min API-nøgle
+    const apiUrl = 'https://api.coingecko.com/api/v3/coins/markets';
+    const currency = 'dkk';  // Brug DKK for danske kroner
+
+    function fetchCryptoData() {
+        fetch(`${apiUrl}?vs_currency=${currency}&order=market_cap_desc&per_page=10&page=1&x_cg_demo_api_key=${apiKey}`)
+            .then(response => response.json())
+            .then(data => {
+                const tableBody = document.getElementById('cryptoTable');
+                tableBody.innerHTML = '';
+                data.forEach(coin => {
+                    tableBody.innerHTML += `<tr><td>${coin.name}</td><td>${coin.current_price} kr.</td></tr>`;
+                });
+            })
+            .catch(error => console.error('Fejl i API-kaldet:', error));
+    }
+
+    fetchCryptoData(); // Kald funktionen for at hente data
+</script>
+</body>
+</html>
